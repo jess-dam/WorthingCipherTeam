@@ -1,0 +1,79 @@
+import string
+from collections import OrderedDict
+
+
+def ceasar(cipher,upper,lower):
+    plaintext = ''
+    shift = int(raw_input("Enter the shift here: "))
+    for char in cipher:
+        if char in upper:
+            ix  = upper.index(char)
+            try:
+                print(char)
+                plaintext += upper[ix+shift]
+            except:
+                try:
+                    plaintext += upper[(ix+shift)-len(upper)]
+                except:
+                    print('your cipher could not be decrypted')
+        else:
+            plaintext += char
+    return plaintext
+
+def substitution(cipher,upper,lower):
+    plaintext = ''
+    #sub = ['D','N','O','C','P','*','R','S','B','T','U','A','*','W','*','Y',
+     #      '*','E','F','*','H','I','J','K','L','M']
+     
+    subd = {'A':'O','B':'A','C':'*','D':'*','E':'*','F':'*','G':'*','H':'*',
+            'I':'*','J':'T','K':'*','L':'R','M':'*','N':'*','O':'*','P':'E',
+            'Q':'*','R':'*','S':'*','T':'H','U':'A','V':'*','W':'*','X':'*',
+            'Y':'*','Z':'*'}
+    #subd = OrderedDict((ch,key) for key, ch in enumerate(upper))
+
+    #for i in range(0,len(list(subd.keys()))):
+        #subd[list(subd.keys())[i]] = sub[i]
+    '''
+    for key in list(subd.keys()):
+        print('%s : %s'%(key,subd[key]))
+    '''
+    
+    for char in cipher:
+        if char in upper:
+            plaintext += subd[char]
+        elif char in string.punctuation:
+            plaintext += char
+        else:
+            plaintext += char
+    return plaintext
+  
+    
+
+cipher = raw_input('Enter cipher here: \n')
+plaintext = ''
+
+upper = string.ascii_uppercase
+lower = string.ascii_lowercase
+
+freq = OrderedDict((ch,key) for key, ch in enumerate(upper))
+for char in cipher:
+    if char in upper:
+      freq[char] += 1
+'''
+pos = 0
+for key in list(freq.keys()):
+    pos += 1
+    print('%d ) %s : %s'%(pos,key,freq[key]))
+'''
+
+#plaintext = ceasar(cipher,upper,lower)
+# subsitution cipher is currently active
+plaintext = substitution(cipher,upper,lower)
+print(plaintext)
+            
+# copy in this dictionary for a fresh cipher (or if you just want to start again)
+#subd = {'A':'*','B':'*','C':'*','D':'*','E':'*','F':'*','G':'*','H':'*',
+            #'I':'*','J':'*','K':'*','L':'*','M':'*','N':'*','O':'*','P':'*',
+            #'Q':'*','R':'*','S':'*','T':'*','U':'*','V':'*','W':'*','X':'*',
+            #'Y':'*','Z':'*'}
+
