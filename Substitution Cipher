@@ -2,33 +2,39 @@ import string
 from collections import OrderedDict
 
 
+# use this function for testing ceasar ciphers
 def ceasar(cipher,upper,lower):
     plaintext = ''
     shift = int(raw_input("Enter the shift here: "))
     for char in cipher:
-        if char in upper:
+        # only shifts characters if they are lower of upper case alphabet
+        if (char in upper) or (char in lower):
             ix  = upper.index(char)
             try:
                 print(char)
                 plaintext += upper[ix+shift]
             except:
+                # if shift goes back to the beginning of the alphabet it goes into this exception branch
                 try:
                     plaintext += upper[(ix+shift)-len(upper)]
                 except:
+                    # if the subroutine fails, an error message will occur
                     print('your cipher could not be decrypted')
         else:
             plaintext += char
     return plaintext
 
+# use this function for substitution ciphers
 def substitution(cipher,upper,lower):
     plaintext = ''
-    #sub = ['D','N','O','C','P','*','R','S','B','T','U','A','*','W','*','Y',
-     #      '*','E','F','*','H','I','J','K','L','M']
-     
-    subd = {'A':'O','B':'A','C':'*','D':'*','E':'*','F':'*','G':'*','H':'*',
-            'I':'*','J':'T','K':'*','L':'R','M':'*','N':'*','O':'*','P':'E',
-            'Q':'*','R':'*','S':'*','T':'H','U':'A','V':'*','W':'*','X':'*',
+
+    # enter substitution guesses in place of the asterisks in this dictionary
+    # dictionary keys are the original ciphertext
+    subd = {'A':'*','B':'*','C':'*','D':'*','E':'*','F':'*','G':'*','H':'*',
+            'I':'*','J':'*','K':'*','L':'*','M':'*','N':'*','O':'*','P':'*',
+            'Q':'*','R':'*','S':'*','T':'*','U':'*','V':'*','W':'*','X':'*',
             'Y':'*','Z':'*'}
+            
     #subd = OrderedDict((ch,key) for key, ch in enumerate(upper))
 
     #for i in range(0,len(list(subd.keys()))):
@@ -39,7 +45,7 @@ def substitution(cipher,upper,lower):
     '''
     
     for char in cipher:
-        if char in upper:
+        if (char in upper) or (char in lower):
             plaintext += subd[char]
         elif char in string.punctuation:
             plaintext += char
@@ -67,6 +73,7 @@ for key in list(freq.keys()):
 '''
 
 #plaintext = ceasar(cipher,upper,lower)
+
 # subsitution cipher is currently active
 plaintext = substitution(cipher,upper,lower)
 print(plaintext)
